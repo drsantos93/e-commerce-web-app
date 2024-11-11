@@ -1,20 +1,20 @@
 // we need a main layout
 // then after main layout all the pages
-import MainLayout from "../components/layouts/MainLayout"
-import Dashboard from "../pages/Dashboard"
-import Profiles from "../pages/Products"
+import MainAdminLayout from "../components/layouts/MainAdminLayout"
+import Dashboard from "../pages/admin/Dashboard"
+import Products from "../pages/admin/Products"
 const AdminRoute = [
     {
-        path: '/',
-        element: <MainLayout/>,
+        path: '/admin',
+        element: <MainAdminLayout/>,
         children: [
             {
                 path: "",
                 element: <Dashboard/>
             },
             {
-                path: "/products",
-                element: <Profiles/>
+                path: "/admin/products",
+                element: <Products/>
             }
         ]
     }
