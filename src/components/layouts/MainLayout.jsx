@@ -4,10 +4,7 @@ import {Home,Inventory,Menu} from '@mui/icons-material'
 import {AppBar, Box, Drawer, List, IconButton, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography, Button} from '@mui/material'
 
 function MainLayout(){
-    const [openDrawer, setOpenDrawer] = useState(false)
-    
-    const toggleDrawer = () => setOpenDrawer(!openDrawer)
-
+ 
     return (
         // parent
       <Box sx={{display: 'flex', flexDirection: 'column', height: '100vh'}}>
