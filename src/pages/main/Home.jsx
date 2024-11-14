@@ -1,13 +1,15 @@
 import { Typography, Box, Card, Button, CardHeader, CardMedia, CardContent, Pagination } from "@mui/material"
 import { useEffect, useLayoutEffect, useState } from "react"
 import { Search, SearchIconWrapper, StyledInputBase } from "../../components/Search"
-
 import { Search as SearchIcon } from '@mui/icons-material';
 import { retrieveProductsByPage } from "../../api/products";
+import { useSelector } from "react-redux";
+
 const Home = () =>{
     const [row, setRows] = useState([])
     const [page, setPage] = useState(1)
     const [totalPage, setTotalPage] = useState(0)
+    const user = useSelector(state=>state.auth.user)
 
     // on load
     useLayoutEffect(()=>{
@@ -15,7 +17,6 @@ const Home = () =>{
         .then(res=>{
             setRows(res.data)
             setTotalPage(res.total_pages)
-            console.log(res)
         })
     },[])
 
@@ -75,7 +76,11 @@ const Home = () =>{
                             <CardHeader 
                                 title={`${item.name}`}
                                 subheader={`${item.type.type}`}
+                                
                             />
+                            <Typography sx={{ml: 2, fontWeight: 'bold'}} color="primary">
+                                Price: {new Intl.NumberFormat('ja-JP',{style: 'currency', currency: 'JPY'}).format(parseFloat(item.price))}
+                            </Typography>
                             <CardMedia
                                 component="img"
                                 sx={{p:2, width: '100%',height: '300px',objectFit: 'contain'}}
@@ -88,7 +93,7 @@ const Home = () =>{
                                 </Box>
 
                                 <Box sx={{flex: 1,minHeight: 0, display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', gap: 3}}>
-                                    <Button variant="contained" color="primary">Hello</Button>
+                                    <Button variant="contained" color="primary" sx={user ? {display: 'block'}: {display:'none'}}>Add to cart</Button>
                                 </Box>
 
                             </CardContent>

@@ -17,7 +17,7 @@ export const verify = async(access) =>{
         headers:{
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({token:accessToken})
+        body: JSON.stringify({token:access})
     })
     
     const ret = await res.json()

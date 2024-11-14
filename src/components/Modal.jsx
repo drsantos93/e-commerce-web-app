@@ -1,11 +1,11 @@
 import {Button,Modal,Box} from '@mui/material'
 
-export default function CustomModal({open, handleOpen, buttonText, handleClose, children,buttonStyle}){
+export default function CustomModal({open, handleOpen, buttonText, handleClose, children,buttonStyle,btnColor}){
     return(
         <>
             <Button
                 variant='contained'
-                color='success'
+                color={btnColor}
                 sx={{...buttonStyle}}
                 onClick={handleOpen}
             >

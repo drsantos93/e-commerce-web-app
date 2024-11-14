@@ -212,6 +212,7 @@ function Products(){
                 <CustomModal
                     buttonText="Add Product" 
                     open={open} 
+                    btnColor='success'
                     handleOpen={() => openModal("add",null)} 
                     handleClose={() => closeModal()}
                     buttonStyle={{width: '80%'}}
