@@ -2,6 +2,7 @@
 // then after main layout all the pages
 import MainLayout from "../components/layouts/MainLayout"
 import Home from "../pages/main/Home"
+import Cart from "../pages/main/Cart"
 
 const MainRoute = [
     {
@@ -12,6 +13,10 @@ const MainRoute = [
                 path: "",
                 element: <Home/>
             },
+            {
+                path: "/cart",
+                element: <Cart/>
+            }
         ]
     }
 ]
