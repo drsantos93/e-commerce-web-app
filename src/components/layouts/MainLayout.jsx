@@ -28,9 +28,7 @@ function MainLayout(){
     const user = useSelector(state=>state.auth.user)
     const nav = useNavigate()
 
-    useEffect(()=>{
-        console.log(user)
-    },[user])
+    
 
     const openRegModal = () =>{
         setOpenReg(true)
@@ -55,11 +53,13 @@ function MainLayout(){
 
     const handleLogin = (e) =>{
         e.preventDefault()
+        console.log("hello")
         const user = loginRef.current[0].value
         const pass = loginRef.current[1].value
 
         login({username: user, password: pass})
         .then(res=>{
+            console.log('hello')
             if(res.detail){
                 toast.error("Incorrect Username or Password", {position: 'top-center'})
             }else{
@@ -68,7 +68,7 @@ function MainLayout(){
                 dispatch(setUser(jwtDecode(res.access)))
                 setOpenLogin(false)
             }
-            console.log(res)
+            // console.log(res)
         })
     }
 
@@ -84,8 +84,8 @@ function MainLayout(){
 
     const handleRegister = (e) =>{
         e.preventDefault()
+        
         setLoading(true)
-        register
         const regData = {
             username: regRef.current[0].value,
             password: regRef.current[1].value,
@@ -96,6 +96,7 @@ function MainLayout(){
         }
 
         if(regData.password === regData.password_confirmation){
+            
             register(regData)
             .then(res=>{
                 if(res.ok){
@@ -110,7 +111,7 @@ function MainLayout(){
                             dispatch(setUser(jwtDecode(res.access)))
                             setOpenReg(false)
                         }
-                        console.log(res)
+                        // console.log(res)
                     })
                 }else{
                     for(const [test,value] of Object.entries(res.data)){

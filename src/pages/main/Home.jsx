@@ -2,23 +2,19 @@ import { Typography, Box, Card, Button, CardHeader, CardMedia, CardContent, Pagi
 import { useEffect, useLayoutEffect, useState } from "react"
 import { Search, SearchIconWrapper, StyledInputBase } from "../../components/Search"
 import { Search as SearchIcon } from '@mui/icons-material';
-import { retrieveProductsByPage } from "../../api/products";
+import { addCartItem, retrieveCart, retrieveProductsByPage, updateCartItem } from "../../api/products";
 import { useSelector } from "react-redux";
+import Loading from "../../components/Loading";
+import { toast } from "react-toastify";
 
 const Home = () =>{
     const [row, setRows] = useState([])
     const [page, setPage] = useState(1)
+    const [loading, setLoading] = useState(false)
     const [totalPage, setTotalPage] = useState(0)
     const user = useSelector(state=>state.auth.user)
 
     // on load
-    useLayoutEffect(()=>{
-        retrieveProductsByPage(page)
-        .then(res=>{
-            setRows(res.data)
-            setTotalPage(res.total_pages)
-        })
-    },[])
 
     // will trigger when page updates
     useEffect(()=>{
@@ -35,8 +31,58 @@ const Home = () =>{
         setPage(value)
     }
 
+    const addToCart = (id) =>{
+        // get user's item cart
+        // backend ^^^
+        setLoading(true)
+        let carte
+        let existedItem = {}
+        retrieveCart(user.user_id).then(res=>{
+            carte = JSON.parse(JSON.stringify(res.data))
+            
+        }).finally(()=>{
+            // iterate all cart items to get current item
+            for(let cart of carte){
+                
+                if(id == cart.item.id){
+                    existedItem.id = cart.id
+                    existedItem.quantity = cart.quantity
+                    
+                }
+            }
+            
+            if(Object.keys(existedItem).length > 0){
+                existedItem.quantity = parseInt(existedItem.quantity) + 1
+                updateCartItem(user.user_id, existedItem)
+                .then(res=>{
+                    if(res.ok){
+                        toast.success(`Item added to cart!`)
+                    }
+                    setLoading(false)
+                }).catch(()=>{
+                    setLoading(false)
+                })
+            }else{
+                addCartItem(user.user_id,{item: id, quantity: 1})
+                .then(res=>{
+                    if(res.ok){
+                        toast.success(`Item added to cart!`)
+                    }
+                    setLoading(false)
+                }).catch(()=>{
+                    setLoading(false)
+                })
+            }
+            
+        })
+       
+        
+        
+    }
+
     return (
         <Box sx={{flex: 1, minHeight: 0, minWidth:0, display: 'flex', flexDirection: 'column', gap: 2, alignItems: 'center', width: '100%'}}>
+            <Loading open={loading}/>
             {/* will not work yet */}
             <Card sx={{mt: 2,mb:2, width: '70%'}}>
                 <Search>
@@ -93,7 +139,7 @@ const Home = () =>{
                                 </Box>
 
                                 <Box sx={{flex: 1,minHeight: 0, display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', gap: 3}}>
-                                    <Button variant="contained" color="primary" sx={user ? {display: 'block'}: {display:'none'}}>Add to cart</Button>
+                                    <Button variant="contained" color="primary" sx={user ? {display: 'block'}: {display:'none'}} onClick={()=>addToCart(item.id)}>Add to cart</Button>
                                 </Box>
 
                             </CardContent>

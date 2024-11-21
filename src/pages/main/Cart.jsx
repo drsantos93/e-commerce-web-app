@@ -15,31 +15,7 @@ const Cart = () =>{
     const token = sessionStorage.getItem('user')
     const dispatch = useDispatch()
     
-    
-    // on load
-    useLayoutEffect(()=>{
-        let userc = {}
-        verify(token)
-        .then(res=>{
-            if(res){
-                const userm = jwtDecode(token)
-                 
-                dispatch(setUser(userm)) //redux
-                
-                userc = userm
-            }else{
-                dispatch(reset())
-                sessionStorage.clear()
-                nav("../")
-            }
-        })
-        retrieveCartItems(userc.user_id,page)
-        .then(res=>{
-            setRows(res.data)
-            console.log(res.data)
-            setTotalPage(res.total_pages)
-        })
-    },[])
+ 
 
     // will trigger when page updates
     useEffect(()=>{
@@ -80,15 +56,14 @@ const Cart = () =>{
     return (
         <Box sx={{flex: 1, minHeight: 0, minWidth:0, display: 'flex', flexDirection: 'column', gap: 2, alignItems: 'center', width: '100%'}}>
             
-            {/* paginate items */}
-            <Box mt={2}>
-                <Pagination count={totalPage} onChange={handlePageChange} color="primary"/>
-            </Box>
+          
+
             {/* Items */}
-
-
             {
-                    row.length === 0 ? <Typography variant="h1" color="secondary">Loading...</Typography> : null
+                    row.length === 0 ? <Typography variant="h1" color="secondary">No Data</Typography> :   
+                    <Box mt={2}>
+                        <Pagination count={totalPage} onChange={handlePageChange} color="primary"/>
+                    </Box>
             }
             <Box sx={{
                 flex:1,

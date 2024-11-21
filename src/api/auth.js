@@ -12,7 +12,7 @@ export const login = async(inputs) =>{
 }
 
 export const verify = async(access) =>{
-    const res = await fetch(`${URL}login/`,{
+    const res = await fetch(`${URL}token/verify/`,{
         method: "POST",
         headers:{
             'Content-Type': 'application/json'

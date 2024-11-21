@@ -51,13 +51,22 @@ export const DMLProducts = async (inputs, type) =>{
         
     })
 
-    console.log("dmlproducts website")
-    console.log(inputs)
-
     return await res.json()
 }
 
 // for cart
+export const retrieveCart = async (id) =>{
+    const res = await fetch(`${URL}carts/${id}/`,{
+        method: 'GET',
+        headers:{
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        }
+    })
+
+    return await res.json()
+}
+
 export const retrieveCartItems = async (id,page) =>{
     const res = await fetch(`${URL}carts/${id}/?page=${page}`,{
         method: 'GET',
@@ -69,3 +78,31 @@ export const retrieveCartItems = async (id,page) =>{
 
     return await res.json()
 }
+
+export const addCartItem = async (id,inputs) =>{
+    const res = await fetch(`${URL}carts/${id}/`,{
+        method: "POST",
+        headers:{
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(inputs)
+        
+    })
+
+    return await res.json()
+}
+
+export const updateCartItem = async (id,inputs) =>{
+    const res = await fetch(`${URL}carts/${id}/`,{
+        method: "PATCH",
+        headers:{
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(inputs)
+        
+    })
+
+    return await res.json()
+} 
