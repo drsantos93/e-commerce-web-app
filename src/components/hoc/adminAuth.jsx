@@ -5,6 +5,7 @@ import {reset, setUser} from '../../redux/slice'
 import { jwtDecode } from 'jwt-decode'
 import { verify } from '../../api/auth'
 
+
 export default function AdminAuth(WrappedComponent){
     return () =>{
         const nav = useNavigate()
